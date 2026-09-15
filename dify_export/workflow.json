@@ -1,0 +1,417 @@
+{
+  "workflow": {
+    "id": "29a94420-de33-43d1-b3e2-0887037c605e",
+    "graph": {
+      "nodes": [
+        {
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "zIndex": 0,
+          "id": "1711528914102",
+          "positionAbsolute": {
+            "x": -52.71808009093252,
+            "y": 2531.7848936899863
+          },
+          "data": {
+            "desc": "用户的提问从这里进入，作为整个流程的起点。",
+            "type": "start",
+            "title": "开始",
+            "variables": [],
+            "selected": false
+          },
+          "position": {
+            "y": 2531.7848936899863,
+            "x": -52.71808009093252
+          },
+          "type": "custom",
+          "height": 116,
+          "selected": false,
+          "width": 242
+        },
+        {
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "dragging": false,
+          "zIndex": 0,
+          "id": "1711528915811",
+          "positionAbsolute": {
+            "x": 515.1849856434142,
+            "y": 2534.030606995885
+          },
+          "data": {
+            "desc": "在知识库中搜索与用户问题最相关的内容，并将结果传递给 LLM。",
+            "query_attachment_selector": "",
+            "query_variable_selector": [
+              "1787935772145",
+              "text"
+            ],
+            "retrieval_mode": "multiple",
+            "single_retrieval_config": {
+              "model": {
+                "name": "gpt-3.5-turbo",
+                "provider": "openai",
+                "completion_params": {
+                  "max_tokens": 512,
+                  "presence_penalty": 0,
+                  "top_p": 1,
+                  "frequency_penalty": 0,
+                  "temperature": 0
+                },
+                "mode": "chat"
+              }
+            },
+            "title": "🌟 知识检索",
+            "multiple_retrieval_config": {
+              "top_k": 4,
+              "reranking_enable": true,
+              "reranking_model": {
+                "provider": "langgenius/tongyi/tongyi",
+                "model": "qwen3-rerank"
+              },
+              "weights": null,
+              "score_threshold": null,
+              "reranking_mode": "reranking_model"
+            },
+            "dataset_ids": [
+              "bb084d71-2a71-4cc9-8f42-2526e23aad04",
+              "eef69672-a1cc-446a-831e-3e169566ca1f",
+              "9aa913e7-e72c-4344-a62a-0cfd9442185c"
+            ],
+            "type": "knowledge-retrieval",
+            "selected": true
+          },
+          "position": {
+            "y": 2534.030606995885,
+            "x": 515.1849856434142
+          },
+          "type": "custom",
+          "height": 95,
+          "selected": true,
+          "width": 241
+        },
+        {
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "zIndex": 0,
+          "id": "1711528917469",
+          "positionAbsolute": {
+            "x": 826.0922046733532,
+            "y": 2529.544077503429
+          },
+          "data": {
+            "variables": [],
+            "vision": {
+              "enabled": true,
+              "configs": {
+                "variable_selector": [
+                  "sys",
+                  "files"
+                ],
+                "detail": "high"
+              }
+            },
+            "prompt_template": [
+              {
+                "id": "943448fa-b145-4ae7-a485-d77e4a2cc77b",
+                "role": "system",
+                "text": "## 角色定位\n你是**学工智答**，一个基于AI的高校政策智能问答助手，专门为高校学生提供7×24小时不间断的学生事务政策咨询服务。你的知识库覆盖学生在校全生命周期政策，包括但不限于：入学指南、奖助学金、助学贷款、家庭经济困难学生认定、志愿时长认定、毕业手续、学籍管理、日常事务等。\n\n## 核心能力\n\n- **文本问答**：准确理解学生的政策问题，实时返回基于知识库的权威答案。\n- **多轮对话**：支持上下文关联，能够在连续对话中准确理解学生意图。\n- **问题推荐**：在回答后主动推荐2-3个相关问题，帮助学生深入了解政策。\n- **语音友好**：回答结构清晰，适合语音播报场景。\n\n---\n\n## ⬇️ 知识库参考内容（以下内容由知识检索节点动态注入）\n\n以下是从知识库中检索到的与用户问题相关的政策内容，请**严格基于以下内容**回答用户问题，不得使用外部知识或自行编造。\n\n🔧【插入变量：知识检索.result】\n\n{{#context#}}{{#sys.query#}}{{#sys.files#}}\n\n## 回答规范\n\n### 1. 语言规则\n- **使用与用户提问相同的语言作答**。用户用中文提问则用中文回答，用英文提问则用英文回答。\n\n### 2. 知识来源与表达规则\n- **所有回答必须基于上方\"知识库参考内容\"中的政策文件内容**，不得编造政策条款、金额、时间节点、流程步骤等信息。\n- **严禁直接照搬、复制粘贴知识库原文**。你必须先阅读理解参考内容，提取关键信息，然后用自己的话重新组织、编排后再回答。\n- **回答生成流程**：①阅读参考内容 → ②提取与用户问题相关的核心信息（条件、金额、时间、流程等）→ ③按逻辑重新组织这些信息 → ④用自然、通顺的口语化表达输出。\n- 关键数据（金额、比例、时间节点、分数要求等）必须准确，但**表述方式必须是你自己的**，不能整段照抄原文句式。\n- 可以引用政策名称、文件编号、条款编号作为依据，但正文解释要用自己的话。\n- 如果参考内容中**没有相关信息**，请回复：\n  > \"这个问题我暂时没有把握，能否换个方式描述一下？\"\n- **严禁**在知识库无依据时自行推测、编造或给出不确定的政策答案。\n\n### 3. 回答风格\n- **保持回答简洁、实用**，直接给出答案，避免冗长铺垫。\n- **用自然、通顺的口语化表达**，像一个熟悉政策的学长或老师在解答问题，而不是在读文件。禁止使用\"根据某某文件第几条规定\"这种生硬的公文腔开头。\n- 优先使用条目化、结构化表达（如分点、表格），便于学生快速获取关键信息，但每个要点的解释要用自己的话，不要复制原文。\n- 涉及流程时，按步骤清晰列出，并用自己的话说明每一步要做什么。\n- 涉及金额、时间、条件等关键信息时，务必准确引用，但前后的衔接、解释、总结必须是自己的话。\n- 可以适当加入引导性、解释性的话（如\"简单来说就是……\"\"需要注意的是……\"\"这里有个前提……\"），让回答更易懂。\n- 语气友好、耐心，符合高校学生服务的专业形象。\n\n### 4. 边界与安全\n- 仅回答与高校学生事务政策相关的问题。\n- 不提供法律、医疗、投资理财等专业领域的建议。\n- 不收集学生的敏感个人信息（如身份证号、银行卡号、密码等）。\n- 如学生询问的是具体个人审批进度、账户状态等需查询业务系统的信息，告知其联系相应学工部门或登录相关系统查询。\n- 遇到情绪激动或有心理危机倾向的学生，温和引导其联系学校心理咨询中心或辅导员。\n\n### 5. 特殊群体关怀\n- 对视障、听障等特殊群体的提问，回答应更加简洁、结构清晰，便于辅助技术读取。\n- 对国际学生的英文提问，使用清晰标准的英文回答。\n\n### 6. 助学金与奖学金概念区分（强制规则）\n- **助学金与\"家庭经济困难学生\"是强关联关系**。凡涉及\"助学金\"（国家助学金、校级助学金等），申请人必须是经过认定的**家庭经济困难学生**，这是申请助学金的前置必要条件，回答时必须主动说明这一点。\n- **奖学金**（国家奖学金、校长奖学金、学业奖学金、专项奖学金、社会奖学金）面向全体学生，以学业成绩、综合素质、竞赛获奖等为评选依据，**不要求**家庭经济困难身份。\n- **国家励志奖学金**是例外：同时要求\"品学兼优\"**且**\"家庭经济困难\"，两个条件缺一不可，回答时必须同时列出。\n- **家庭经济困难学生认定**是助学金、国家励志奖学金、困难补助、勤工助学、学费减免等所有资助类项目的共同前置条件。\n- 回答涉及助学金的问题时，必须先说明\"需先通过家庭经济困难学生认定\"，再讲后续流程；不得将助学金与奖学金混为一谈。\n- 用户问\"成绩好能不能拿助学金\"时，需纠正：助学金看家庭经济困难程度，不看成绩；成绩好应申请奖学金（如国家奖学金、学业奖学金）。\n\n## 回答模板\n\n### 常规政策问答\n```\n【直接回答核心问题】\n\n【如有需要，补充关键条件/注意事项】\n- 条件1：...\n- 条件2：...\n\n【办理流程（如适用）】\n1. ...\n2. ...\n3. ...\n\n【相关推荐】\n你可能还想了解：\n- 相关问题1\n- 相关问题2\n```\n\n### 知识库无匹配\n```\n这个问题我暂时没有把握，能否换个方式描述一下？\n```\n\n## 示例\n\n### ❌ 错误示范（照搬原文，禁止这样回答）\n\n**用户**：国家励志奖学金有什么要求？\n\n**错误回答**：\n国家励志奖学金由中央财政出资设立，用于奖励资助我校在籍全日制学生中品学兼优的家庭经济困难学生，激励我校家庭经济困难学生勤奋学习、努力进取，德智体美劳全面发展。评选条件除需满足第五条列出的基本条件外，还需符合：1.学习刻苦，成绩优秀，当学年平均学分绩达到80分及以上且处于班级（专业、年级）前25%；2.当学年德育考评成绩为\"优\"；3.家庭经济困难，生活俭朴。\n\n> 问题：整段复制原文，句式生硬，没有自己的组织和解释。\n\n---\n\n### ✅ 正确示范（理解后用自己的话回答）\n\n**用户**：国家励志奖学金有什么要求？\n\n**正确回答**：\n国家励志奖学金是专门给**品学兼优的家庭经济困难学生**设立的，两个条件缺一不可。\n\n具体要求：\n- **成绩方面**：当学年平均学分绩要达到80分以上，并且排名在班级（或专业、年级）前25%以内\n- **德育方面**：当学年德育考评成绩必须是\"优\"\n- **经济方面**：必须是经过认定的家庭经济困难学生，生活俭朴\n\n另外还要满足奖学金的基本条件，比如必修课没有不及格、遵守校规校纪、按时交纳学费等。\n\n你可能还想了解：\n- 家庭经济困难学生怎么认定？\n- 国家奖学金和国家励志奖学金有什么区别？\n- 国家励志奖学金的金额是多少？\n\n---\n\n### 再举一例\n\n**用户**：学业奖学金分几等，各多少钱？\n\n**正确回答**：\n学业奖学金一共分三个等级，金额和比例如下：\n\n| 等级 | 金额（每年） | 获奖比例 |\n|---|---|---|\n| 一等奖 | 1800元 | 不超过5% |\n| 二等奖 | 1200元 | 不超过8% |\n| 三等奖 | 800元 | 不超过10% |\n\n评选主要看学年平均学分绩排名：一等奖要85分以上且前10%，二等奖83分以上且前20%，三等奖80分以上且前30%。同时还要满足必修课无不及格、德育考评\"良\"以上等基本条件。"
+              }
+            ],
+            "desc": "AI 基于检索到的知识库内容结合用户问题，生成清晰、有帮助的回答。",
+            "context": {
+              "enabled": true,
+              "variable_selector": [
+                "1711528915811",
+                "result"
+              ]
+            },
+            "title": "LLM",
+            "error_strategy": "default-value",
+            "type": "llm",
+            "default_value": [
+              {
+                "value": "这个问题我暂时没有把握，能否换个方式描述一下？",
+                "type": "string",
+                "key": "text"
+              }
+            ],
+            "memory": {
+              "role_prefix": {
+                "assistant": "",
+                "user": ""
+              },
+              "window": {
+                "size": 50,
+                "enabled": false
+              }
+            },
+            "model": {
+              "name": "qwen3.8-max",
+              "provider": "langgenius/tongyi/tongyi",
+              "completion_params": {},
+              "mode": "chat"
+            },
+            "selected": false
+          },
+          "position": {
+            "y": 2529.544077503429,
+            "x": 826.0922046733532
+          },
+          "type": "custom",
+          "height": 167,
+          "selected": false,
+          "width": 241
+        },
+        {
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "zIndex": 0,
+          "id": "1711528919501",
+          "positionAbsolute": {
+            "x": 1145.4141951615322,
+            "y": 2523.3138717421125
+          },
+          "data": {
+            "answer": "{{#1711528917469.text#}}",
+            "desc": "将 AI 生成的最终回复展示给用户。",
+            "title": "Answer",
+            "type": "answer",
+            "variables": [],
+            "selected": false
+          },
+          "position": {
+            "y": 2523.3138717421125,
+            "x": 1145.4141951615322
+          },
+          "type": "custom",
+          "height": 129,
+          "selected": false,
+          "width": 241
+        },
+        {
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "zIndex": 0,
+          "id": "1787935772145",
+          "positionAbsolute": {
+            "x": 227.24131280390804,
+            "y": 2557.6755075445813
+          },
+          "data": {
+            "prompt_template": [
+              {
+                "role": "system",
+                "text": "# 角色\n你是一个高校政策问答系统的查询优化助手。你的任务是分析用户的提问，理解其真实意图，然后生成一个精准、适合知识库检索的优化查询。\n\n# 工作流程\n1. 分析用户提问，识别用户真正想了解的政策领域和具体问题{{#sys.query#}}{{#context#}}\n2. 将用户的口语化表述转换为政策文件中的标准术语\n3. 提取关键实体（奖学金/助学金名称、政策类型、时间、条件等）\n4. 生成优化后的检索查询\n\n# 术语映射规则（必须遵守）\n- \"贫困生\"\"困难生\"\"家里穷\" → 家庭经济困难学生\n- \"补助\"\"资助金\"\"生活补助\" → 助学金 / 困难补助\n- \"贷款\"\"上学贷款\" → 助学贷款 / 国家助学贷款\n- \"奖金\"\"学习奖金\" → 奖学金\n- \"励志奖\" → 国家励志奖学金\n- \"国奖\" → 国家奖学金\n- \"助学金\" → 国家助学金（注意：助学金与家庭经济困难学生强关联）\n- \"认定\"\"评困难\" → 家庭经济困难学生认定\n- \"毕业手续\"\"离校\" → 毕业手续 / 离校手续\n- \"转专业\"\"换专业\" → 学籍管理 / 转专业\n- \"志愿时长\"\"义工时长\" → 志愿服务 / 志愿时长认定\n\n# 输出格式\n请严格按照以下格式输出，不要添加额外解释：\n\n【主查询】\n（用一句话概括用户的核心问题，使用标准政策术语，适合直接输入知识库检索）\n\n【扩展关键词】\n（列出3-6个与问题相关的关键词或短语，用顿号分隔，用于补充检索，提高召回率）\n\n【政策领域】\n（从以下类别中选择一个最匹配的：奖助学金、助学贷款、家庭经济困难认定、学籍管理、毕业离校、入学指南、志愿服务、日常事务、其他）\n\n# 示例\n\n示例1：\n用户：那个贫困补助怎么拿啊？\n【主查询】\n家庭经济困难学生申请国家助学金的条件和流程\n【扩展关键词】\n国家助学金、家庭经济困难学生认定、助学金申请流程、资助标准\n【政策领域】\n奖助学金\n\n示例2：\n用户：国奖和励志奖有啥不一样？\n【主查询】\n国家奖学金与国家励志奖学金的区别及评选条件对比\n【扩展关键词】\n国家奖学金、国家励志奖学金、评选条件、奖励标准、家庭经济困难\n【政策领域】\n奖助学金\n\n示例3：\n用户：我成绩专业第一能拿什么奖？\n【主查询】\n学业成绩优异的学生可申请的奖学金类型及评选条件\n【扩展关键词】\n国家奖学金、校长奖学金、学业奖学金一等奖、平均学分绩、评选条件\n【政策领域】\n奖助学金\n\n示例4：\n用户：毕业的时候要办什么手续？\n【主查询】\n应届毕业生离校手续办理流程及所需材料\n【扩展关键词】\n毕业手续、离校流程、档案转接、户口迁移、毕业证领取\n【政策领域】\n毕业离校",
+                "id": "ca07b028-1b11-4ce9-bc02-7f33c89de3a9"
+              }
+            ],
+            "context": {
+              "enabled": true,
+              "variable_selector": [
+                "sys",
+                "files"
+              ]
+            },
+            "title": "LLM 3",
+            "type": "llm",
+            "memory": {
+              "query_prompt_template": "{{#sys.query#}}\n\n{{#sys.files#}}",
+              "window": {
+                "size": 50,
+                "enabled": false
+              },
+              "role_prefix": {
+                "user": "",
+                "assistant": ""
+              }
+            },
+            "vision": {
+              "enabled": false
+            },
+            "model": {
+              "name": "qwen3.8-max",
+              "provider": "langgenius/tongyi/tongyi",
+              "completion_params": {
+                "temperature": 0.7
+              },
+              "mode": "chat"
+            },
+            "selected": false
+          },
+          "position": {
+            "y": 2557.6755075445813,
+            "x": 227.24131280390804
+          },
+          "type": "custom",
+          "height": 87,
+          "selected": false,
+          "width": 241
+        }
+      ],
+      "edges": [
+        {
+          "zIndex": 0,
+          "sourceHandle": "source",
+          "id": "1711528914102-source-1787935772145-target",
+          "target": "1787935772145",
+          "type": "custom",
+          "targetHandle": "target",
+          "source": "1711528914102",
+          "data": {
+            "sourceType": "start",
+            "targetType": "llm",
+            "isInIteration": false,
+            "isInLoop": false,
+            "iteration_id": null,
+            "loop_id": null
+          }
+        },
+        {
+          "zIndex": 0,
+          "sourceHandle": "source",
+          "id": "1711528915811-1711528917469",
+          "target": "1711528917469",
+          "data": {
+            "isInIteration": false,
+            "isInLoop": false,
+            "sourceType": "knowledge-retrieval",
+            "targetType": "llm",
+            "iteration_id": null,
+            "loop_id": null
+          },
+          "targetHandle": "target",
+          "source": "1711528915811",
+          "type": "custom"
+        },
+        {
+          "zIndex": 0,
+          "sourceHandle": "source",
+          "id": "1711528917469-1711528919501",
+          "target": "1711528919501",
+          "data": {
+            "isInIteration": false,
+            "isInLoop": false,
+            "sourceType": "llm",
+            "targetType": "answer",
+            "iteration_id": null,
+            "loop_id": null
+          },
+          "targetHandle": "target",
+          "source": "1711528917469",
+          "type": "custom"
+        },
+        {
+          "zIndex": 0,
+          "sourceHandle": "source",
+          "id": "1787935772145-source-1711528915811-target",
+          "target": "1711528915811",
+          "type": "custom",
+          "targetHandle": "target",
+          "source": "1787935772145",
+          "data": {
+            "sourceType": "llm",
+            "targetType": "knowledge-retrieval",
+            "isInIteration": false,
+            "isInLoop": false,
+            "iteration_id": null,
+            "loop_id": null
+          }
+        }
+      ],
+      "viewport": {
+        "x": 86.85225673595481,
+        "y": -1421.804412328892,
+        "zoom": 0.7464959999999999
+      }
+    },
+    "features": {
+      "opening_statement": "这里是学工智答客服助手，同学有什么需要帮助的吗？\n你可能想问这些：",
+      "suggested_questions": [
+        "奖学金的分类有哪些？",
+        "家庭经济困难如何认定？",
+        "怎样写入团申请书？"
+      ],
+      "suggested_questions_after_answer": {
+        "enabled": true
+      },
+      "text_to_speech": {
+        "enabled": false,
+        "language": "",
+        "voice": ""
+      },
+      "speech_to_text": {
+        "enabled": true
+      },
+      "retriever_resource": {
+        "enabled": false
+      },
+      "sensitive_word_avoidance": {
+        "enabled": false
+      },
+      "file_upload": {
+        "enabled": false,
+        "allowed_file_types": [
+          "image"
+        ],
+        "allowed_file_extensions": [
+          ".JPG",
+          ".JPEG",
+          ".PNG",
+          ".GIF",
+          ".WEBP",
+          ".SVG"
+        ],
+        "allowed_file_upload_methods": [
+          "local_file",
+          "remote_url"
+        ],
+        "number_limits": 3,
+        "image": {
+          "enabled": false,
+          "number_limits": 3,
+          "transfer_methods": [
+            "local_file",
+            "remote_url"
+          ]
+        },
+        "fileUploadConfig": {
+          "file_size_limit": 15,
+          "batch_count_limit": 5,
+          "file_upload_limit": 20,
+          "image_file_size_limit": 10,
+          "video_file_size_limit": 100,
+          "audio_file_size_limit": 50,
+          "workflow_file_upload_limit": 10,
+          "image_file_batch_limit": 10,
+          "single_chunk_attachment_limit": 10,
+          "attachment_image_file_size_limit": 2
+        }
+      }
+    },
+    "hash": "86203e65a013763d95bde9d159f6945b2735d363b2a08201e6dacb1e603798de",
+    "version": "draft",
+    "marked_name": "",
+    "marked_comment": "",
+    "created_by": {
+      "id": "fecaf364-ce2c-4263-b260-7afdd4f2a7ab",
+      "name": "wwq",
+      "email": "2577564269@qq.com"
+    },
+    "created_at": 1787730867,
+    "updated_by": {
+      "id": "fecaf364-ce2c-4263-b260-7afdd4f2a7ab",
+      "name": "wwq",
+      "email": "2577564269@qq.com"
+    },
+    "updated_at": 1789464218,
+    "tool_published": false,
+    "environment_variables": [],
+    "conversation_variables": [],
+    "rag_pipeline_variables": []
+  },
+  "metadata": {
+    "exported_at": "2026-09-15",
+    "dify_app_id": "72759236-bc0e-4c6b-a30d-e819304b8544",
+    "description": "学工智答 - Dify Chatflow 工作流配置"
+  }
+}

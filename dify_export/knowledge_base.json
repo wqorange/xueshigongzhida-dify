@@ -1,0 +1,102 @@
+{
+  "exported_at": "2026-09-15",
+  "source": "Dify console API",
+  "total_count": 9,
+  "embedding_model": "multimodal-embedding-v1 (langgenius/tongyi/tongyi)",
+  "retrieval": {
+    "mode": "hybrid_search (混合检索)",
+    "keyword_weight": 0.3,
+    "vector_weight": 0.7,
+    "reranking_model": "qwen3-rerank"
+  },
+  "active_in_workflow": true,
+  "active_dataset_ids": [
+    "bb084d71-2a71-4cc9-8f42-2526e23aad04",
+    "eef69672-a1cc-446a-831e-3e169566ca1f",
+    "9aa913e7-e72c-4344-a62a-0cfd9442185c"
+  ],
+  "datasets": [
+    {
+      "id": "bb084d71-2a71-4cc9-8f42-2526e23aad04",
+      "name": "软件学〔2024〕25号 软件学院第二课堂学分加分细则.md",
+      "document_count": 3,
+      "word_count": 7807,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": true
+    },
+    {
+      "id": "eef69672-a1cc-446a-831e-3e169566ca1f",
+      "name": "中工团委便字〔2024〕10号 中原工学院发展团员工作流程（2024年修订）.md",
+      "document_count": 5,
+      "word_count": 16320,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": true
+    },
+    {
+      "id": "9aa913e7-e72c-4344-a62a-0cfd9442185c",
+      "name": "家庭经济困难学生认定工作实施办法.md",
+      "document_count": 3,
+      "word_count": 4278,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": true
+    },
+    {
+      "id": "e3a54690-961c-491b-84ec-5da8816d8d7b",
+      "name": "中原工学院奖学金政策知识库.md",
+      "document_count": 2,
+      "word_count": 9386,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": false
+    },
+    {
+      "id": "8169c082-e156-4416-b0ea-b5ed84110a54",
+      "name": "中原工学院家庭经济困难学生班级评议汇总表.docx",
+      "document_count": 3,
+      "word_count": 2742,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": false
+    },
+    {
+      "id": "6f49ce67-e231-4655-801a-4a7a73146c58",
+      "name": "团委各部门职能说明.docx",
+      "document_count": 5,
+      "word_count": 5819,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": false
+    },
+    {
+      "id": "e4e13202-3ca0-4054-8103-939ec6a82c22",
+      "name": "软件学〔2024〕25号 软件学院第二课堂学分加分细则.txt",
+      "document_count": 5,
+      "word_count": 7906,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": false
+    },
+    {
+      "id": "ef6557ca-cfd4-4bc4-a4e5-f83f261ce08e",
+      "name": "3.5发展党员工作Ⅱ.txt",
+      "document_count": 4,
+      "word_count": 8990,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": false
+    },
+    {
+      "id": "9e477d37-90b2-4ce6-b17f-cdfd14f8b122",
+      "name": "英雄联盟《芸阿娜》介绍.md",
+      "document_count": 1,
+      "word_count": 848,
+      "data_source_type": "upload_file",
+      "indexing_technique": "high_quality",
+      "in_workflow": false
+    }
+  ],
+  "raw_export_api": "/console/api/datasets?page=1&limit=100"
+}

@@ -1,0 +1,35 @@
+# === 敏感文件 ===
+# Dify / LLM API Keys
+.env
+.env.local
+*.local
+.credentials.yaml
+
+# DSH (DeepSeek Harness) 用户配置
+.dsh/
+
+# === 大文件 ===
+# PDF 作品集已确认 424KB，GitHub 可以直接托管。
+# 如果后续视频/演示超过 100MB，请使用 Git LFS：
+# git lfs track "*.mp4"
+# git add .gitattributes
+
+# === 项目内部敏感 ===
+# 含明文 API Key 的本地配置指南
+DeepSeek-Harness-配置指南.md
+学工智答项目策划书*
+
+# === Node.js ===
+node_modules/
+npm-debug.log*
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === 系统 ===
+.DS_Store
+Thumbs.db
+Desktop.ini
